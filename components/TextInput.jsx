@@ -1,29 +1,26 @@
 import React, { Component, PropTypes } from 'react';
-import classnames from 'classnames';
 import { TextField } from 'material-ui';
 
 const defaultStyle = {
   marginLeft: 20
 };
 
-class TodoTextInput extends Component {
+class TextInput extends Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      text: this.props.text || ''
-    };
   }
 
   handleEnter(e) {
-    const text = e.target.value.trim();
-    this.props.onSave(text);
-    if (this.props.newTodo) {
-      this.setState({ text: '' });
+    if (!isNaN(parseInt(e.target.value))) {
+      this.props.onSave(e.target.value);
     }
   }
 
   handleChange(e) {
-    this.setState({ text: e.target.value });
+    if (/^\d+(\.(\d+)?)?$/.test(e.target.value)) {
+      console.log(e.target.value);
+      this.props.onSave(e.target.value);
+    }
   }
 
   handleBlur(e) {
@@ -34,16 +31,11 @@ class TodoTextInput extends Component {
 
   render() {
     return (
-      <TextField className={
-                classnames({
-                  edit: this.props.editing,
-                  'new-todo': this.props.newTodo
-                })}
-                style={defaultStyle}
+      <TextField style={defaultStyle}
                 type="text"
                 hintText={this.props.placeholder}
                 autoFocus="true"
-                value={this.state.text}
+                value={this.props.text}
                 onBlur={this.handleBlur.bind(this)}
                 onChange={this.handleChange.bind(this)}
                 onEnterKeyDown={this.handleEnter.bind(this)} />
@@ -51,12 +43,10 @@ class TodoTextInput extends Component {
   }
 }
 
-TodoTextInput.propTypes = {
+TextInput.propTypes = {
   onSave: PropTypes.func.isRequired,
   text: PropTypes.string,
-  placeholder: PropTypes.string,
-  editing: PropTypes.bool,
-  newTodo: PropTypes.bool
+  placeholder: PropTypes.string
 };
 
-export default TodoTextInput;
+export default TextInput;
