@@ -3,7 +3,6 @@ import { UPDATE_NUMBER, UPDATE_FUNCTION } from '../constants/ActionTypes';
 const initialState = {
   number: '',
   reserveNumber1: '',
-  reserveNumber2: '',
   symbol: '',
   isShowingResult: false
 };
